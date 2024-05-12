@@ -1,0 +1,26 @@
+fonoapi:
+  token:
+    dev
+  url: https://fonoapi.freshpixl.com/v1/getdevice
+
+phones:
+  models:
+    - Samsung Galaxy S9
+    - 2x Samsung Galaxy S8
+    - Motorola Nexus 6
+    - Oneplus 9
+    - Apple iPhone 13
+    - Apple iPhone 12
+    - Apple iPhone 11
+    - iPhone X
+    - Nokia 3310
+
+spring:
+  cache:
+    cache-names:
+      - bucket
+    caffeine:
+      spec: maximumSize=100000,expireAfterAccess=120s
+
+bucket4j:
+  enabled: false

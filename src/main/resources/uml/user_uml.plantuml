@@ -1,0 +1,75 @@
+@startuml
+package "com.phone.devices.config" {
+    class SecurityConfig {
+        - UserDetailsServiceImpl userDetailsService
+        + SecurityConfig(UserDetailsServiceImpl userDetailsService)
+        + filterChain(HttpSecurity http): SecurityFilterChain
+        + passwordEncoder(): PasswordEncoder
+    }
+}
+
+package "com.phone.devices.controller" {
+    class UserController {
+        - UserService service
+        + UserController(UserService service)
+        + createUser(req: UserRequestDTO): ResponseEntity<UserResponseDTO>
+    }
+}
+
+package "com.phone.devices.domain.user" {
+    class UserRequestDTO {
+        - String username
+        - String password
+        - String authority
+    }
+    class UserResponseDTO {
+        - String username
+        - String authority
+    }
+}
+
+package "com.phone.devices.entity" {
+    class User {
+        - Long id
+        - String username
+        - String password
+        - String authority
+    }
+}
+
+package "com.phone.devices.mapper" {
+    class UserMapper {
+        - static BCryptPasswordEncoder encoder
+        + toEntity(dto: UserRequestDTO): User
+        + toResponse(entity: User): UserResponseDTO
+    }
+}
+
+package "com.phone.devices.repo" {
+    interface UserRepository {
+        + findById(id: Long): Optional<User>
+        + findByUsername(username: String): Optional<User>
+    }
+}
+
+package "com.phone.devices.service" {
+
+    class UserDetailsServiceImpl {
+        - UserRepository userRepository
+        + UserDetailsServiceImpl(userRepository: UserRepository)
+        + loadUserByUsername(username: String): UserDetails
+    }
+
+    class UserServiceImpl {
+        - UserRepository repository
+        + UserServiceImpl(repository: UserRepository)
+        + create(req: UserRequestDTO): UserResponseDTO
+    }
+}
+
+SecurityConfig --> UserDetailsServiceImpl
+UserDetailsServiceImpl --> UserRepository
+UserServiceImpl --> UserRepository
+UserController --> UserServiceImpl
+
+@enduml

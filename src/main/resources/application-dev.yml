@@ -1,0 +1,71 @@
+# DEV TOOLS
+spring:
+  devtools:
+    restart:
+      enabled: true
+    livereload:
+      enabled: true
+
+
+# LOGGING
+logging:
+  level:
+    com:
+      phone:
+        devices: debug
+    org:
+      springframework:
+        security: debug
+
+phones:
+  models:
+  - Samsung Galaxy S9
+  - 2x Samsung Galaxy S8
+  - Motorola Nexus 6
+  - Oneplus 9
+  - Apple iPhone 13
+  - Apple iPhone 12
+  - Apple iPhone 11
+  - iPhone X
+  - Nokia 3310
+
+fonoapi:
+  token:
+    dev
+  url: https://fonoapi.freshpixl.com/v1/getdevice
+
+resilience4j:
+  circuitbreaker:
+    circuitBreakerAspectOrder: 1
+    instances:
+      fonoservice:
+        register-health-indicator: true
+        event-consumer-buffer-size: 10 #
+        failure-rate-threshold: 50 # if 50% request will fail change status from closed to open
+        minimum-number-of-calls: 5 # After 5 failed calls, status change from Closed to open
+        automatic-transition-from-open-to-half-open-enabled: true
+        wait-duration-in-open-state:
+          seconds: 5 # Status will be changed from Closed to Half-Open after 5s
+        permitted-number-of-calls-in-half-open-state: 3 # After 3 calls in half-open state, it'll go to either Closed or Open
+  retry:
+    retryAspectOrder: 2
+    instances:
+      fonoservice:
+        max-attempts: 3
+        wait-duration:
+          seconds: 5
+
+bucket4j:
+  enabled: true
+  filters:
+    - cache-name: rate-limit-buckets
+      url: /phones/.*
+      http-response-body: "{ \"status\": 429, \"error\": \"Too Many Requests\", \"message\": \"You have exhausted your API Request Quota\" }"
+      rate-limits:
+        - cache-key: getRemoteAddr()
+          bandwidths:
+            - capacity: 20
+              time: 2
+              unit: minutes
+
+

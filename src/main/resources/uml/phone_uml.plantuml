@@ -1,0 +1,80 @@
+@startuml
+package "com.phone.devices.controller" {
+    class PhoneController {
+        - phoneService: PhoneServiceImpl
+        + PhoneController(PhoneServiceImpl phoneService)
+        + getPhone(String model): Phone
+        + bookPhone(String model, String bookedBy): Phone
+        + returnPhone(String model): Phone
+        + getSamplePhoneInfo(): List<PhoneInfoTest>
+    }
+}
+
+package "com.phone.devices.service" {
+    interface PhoneService {
+        + getPhone(String model): Phone
+        + bookPhone(String model, String bookedBy): Phone
+        + returnPhone(String model): Phone
+    }
+
+    class PhoneServiceImpl {
+        - phoneConfiguration: PhoneConfiguration
+        - fonoAPIService: FonoAPIService
+        - phoneInventory: Map<String, Phone>
+        + PhoneServiceImpl(PhoneConfiguration phoneConfiguration, FonoAPIService fonoAPIService)
+        + initialize(): void
+        + loadPhonesFromConfiguration(): void
+        + getPhone(String model): Phone
+        + bookPhone(String model, String bookedBy): Phone
+        + returnPhone(String model): Phone
+    }
+
+    class FonoAPIService {
+        - restClient: RestClient
+        - phoneServiceDB: PhoneServiceDB
+        + FonoAPIService(RestClient restClient, PhoneServiceDB phoneServiceDB)
+        + getPhoneInfo(String deviceName): PhoneInfo
+        + fallbackPhoneInfo(String deviceName, Exception ex): PhoneInfo
+    }
+
+    class PhoneServiceDB {
+        - phoneModelRepository: PhoneModelRepository
+        + PhoneServiceDB(PhoneModelRepository phoneModelRepository)
+        + getPhoneInfo(String deviceName): PhoneInfo
+    }
+
+    interface PhoneModelRepository {
+        ~ findById(ID id): Optional<T>
+    }
+}
+
+package "com.phone.devices.domain" {
+    class Phone {
+        - model: String
+        - isAvailable: boolean
+        - bookedDate: String
+        - bookedBy: String
+        - phoneInfo: PhoneInfo
+        + Phone(String model)
+    }
+
+    class PhoneInfo {
+        - technology: String
+        - _2gBands: String
+        - _3gBands: String
+        - _4gBands: String
+        + PhoneInfo()
+        + PhoneInfo(String technology, String _2gBands, String _3gBands, String _4gBands)
+    }
+}
+
+
+PhoneController --> PhoneServiceImpl
+PhoneServiceImpl --> PhoneConfiguration
+PhoneServiceImpl --> FonoAPIService
+PhoneServiceImpl --> PhoneService
+FonoAPIService --> RestClient
+FonoAPIService --> PhoneServiceDB
+PhoneServiceDB --> PhoneModelRepository
+PhoneModelRepository --|> JpaRepository
+@enduml
