@@ -32,16 +32,9 @@ class UserControllerTest {
     @Test
     void createUser_ValidUserRequest_ReturnsCreatedResponse() {
         // Arrange
-        UserRequestDTO requestDTO = UserRequestDTO.builder()
-                .username("testuser")
-                .password("TestPassword123")
-                .authority("ROLE_USER")
-                .build();
+        UserRequestDTO requestDTO = new UserRequestDTO("testuser", "TestPassword123", "ROLE_USER");
 
-        UserResponseDTO expectedResponseDTO = UserResponseDTO.builder()
-                .username("testuser")
-                .authority("ROLE_USER")
-                .build();
+        UserResponseDTO expectedResponseDTO = new UserResponseDTO("testuser", "ROLE_USER");
 
         when(userService.create(requestDTO)).thenReturn(expectedResponseDTO);
 

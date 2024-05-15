@@ -220,11 +220,7 @@ class E2ESecurityConfigTest {
     }
 
     private UserRequestDTO getUserRequestDTO(final String userName, final String roleName) {
-        return UserRequestDTO.builder()
-                .username(userName)
-                .password(PASSWORD)
-                .authority(roleName)
-                .build();
+        return new UserRequestDTO(userName, PASSWORD, roleName);
     }
 }
 

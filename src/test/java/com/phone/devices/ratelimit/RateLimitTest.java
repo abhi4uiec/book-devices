@@ -35,11 +35,10 @@ class RateLimitTest {
     @Test
     void shouldFailOnExceedingRateLimitSet() {
 
-        UserRequestDTO userRequestDTO = UserRequestDTO.builder()
-                .username("admin@example.com")
-                .password("TestPassword123")
-                .authority("ROLE_ADMIN")
-                .build();
+        UserRequestDTO userRequestDTO = new UserRequestDTO(
+                "admin@example.com",
+                "TestPassword123",
+                "ROLE_ADMIN");
 
         given().contentType(MediaType.APPLICATION_JSON_VALUE)
                 .body(userRequestDTO)

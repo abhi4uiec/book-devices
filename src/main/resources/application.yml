@@ -6,6 +6,7 @@ spring:
     name: devices
   profiles:
     active: dev
+  # Configure Caffeine caching to store the Bucket in-memory
   cache:
     cache-names:
       - rate-limit-buckets

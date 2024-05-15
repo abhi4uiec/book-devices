@@ -35,7 +35,7 @@ dependencies {
 	implementation 'com.giffing.bucket4j.spring.boot.starter:bucket4j-spring-boot-starter:0.9.0'
 	implementation 'org.springframework.boot:spring-boot-starter-cache'
 	implementation 'javax.cache:cache-api'
-	implementation 'com.github.ben-manes.caffeine:caffeine:3.1.5'
+	implementation 'com.github.ben-manes.caffeine:caffeine:3.1.5' // Spring’s caching abstraction to configure an in-memory store
 	implementation 'com.github.ben-manes.caffeine:jcache:3.1.5'
 
 	// lombok

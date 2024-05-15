@@ -10,16 +10,13 @@ public class UserMapper {
 
     public static User toEntity(final UserRequestDTO dto) {
         return User.builder()
-                .username(dto.getUsername())
-                .password(encoder.encode(dto.getPassword()))
-                .authority(dto.getAuthority())
+                .username(dto.username())
+                .password(encoder.encode(dto.password()))
+                .authority(dto.authority())
                 .build();
     }
 
     public static UserResponseDTO toResponse(final User entity) {
-        return UserResponseDTO.builder()
-                .username(entity.getUsername())
-                .authority(entity.getAuthority())
-                .build();
+        return new UserResponseDTO(entity.getUsername(), entity.getAuthority());
     }
 }

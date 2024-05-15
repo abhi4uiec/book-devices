@@ -43,8 +43,8 @@ class UserServiceImplTest {
         UserResponseDTO actualResponseDTO = userService.create(requestDTO);
 
         // Assert
-        assertEquals(expectedResponseDTO.getAuthority(), actualResponseDTO.getAuthority());
-        assertEquals(expectedResponseDTO.getUsername(), actualResponseDTO.getUsername());
+        assertEquals(expectedResponseDTO.authority(), actualResponseDTO.authority());
+        assertEquals(expectedResponseDTO.username(), actualResponseDTO.username());
     }
 }
 

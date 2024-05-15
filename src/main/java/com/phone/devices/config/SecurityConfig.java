@@ -17,8 +17,8 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
-@EnableWebSecurity
-@EnableMethodSecurity
+@EnableWebSecurity // enables web security within a Spring Boot application
+@EnableMethodSecurity // enables method-level security in Spring Security
 public class SecurityConfig {
 
     private final UserDetailsServiceImpl userDetailsService;
@@ -48,6 +48,7 @@ public class SecurityConfig {
                         .requestMatchers(new AntPathRequestMatcher("/phones/sample/**")).permitAll()
                         .anyRequest().authenticated() // Ensures all other requests are authenticated.
                 )
+                // The Same-Origin Policy permits the browser to load resources only from a server hosted in the same-origin
                 .headers(header -> header.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin))
                 .httpBasic(withDefaults()) // Enables HTTP Basic Authentication with default settings.
                 .sessionManagement(session -> session
