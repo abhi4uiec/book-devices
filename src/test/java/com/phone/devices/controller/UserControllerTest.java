@@ -1,7 +1,7 @@
 package com.phone.devices.controller;
 
-import com.phone.devices.domain.user.UserRequestDTO;
-import com.phone.devices.domain.user.UserResponseDTO;
+import com.phone.devices.domain.user.UserRequest;
+import com.phone.devices.domain.user.UserResponse;
 import com.phone.devices.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -32,14 +32,14 @@ class UserControllerTest {
     @Test
     void createUser_ValidUserRequest_ReturnsCreatedResponse() {
         // Arrange
-        UserRequestDTO requestDTO = new UserRequestDTO("testuser", "TestPassword123", "ROLE_USER");
+        UserRequest requestDTO = new UserRequest("testuser", "TestPassword123", "ROLE_USER");
 
-        UserResponseDTO expectedResponseDTO = new UserResponseDTO("testuser", "ROLE_USER");
+        UserResponse expectedResponseDTO = new UserResponse("testuser", "ROLE_USER");
 
         when(userService.create(requestDTO)).thenReturn(expectedResponseDTO);
 
         // Act
-        ResponseEntity<UserResponseDTO> responseEntity = userController.createUser(requestDTO);
+        ResponseEntity<UserResponse> responseEntity = userController.createUser(requestDTO);
 
         // Assert
         assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());

@@ -1,7 +1,7 @@
 package com.phone.devices.controller;
 
-import com.phone.devices.domain.user.UserRequestDTO;
-import com.phone.devices.domain.user.UserResponseDTO;
+import com.phone.devices.domain.user.UserRequest;
+import com.phone.devices.domain.user.UserResponse;
 import com.phone.devices.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -29,7 +29,7 @@ public class UserController {
             @ApiResponse(
                     responseCode = "200",
                     description = "User created successfully",
-                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = UserRequestDTO.class)) }),
+                    content = { @Content(mediaType = "application/json", schema = @Schema(implementation = UserRequest.class)) }),
             @ApiResponse(
                     responseCode = "401",
                     description = "You are not authorized to create an user"),
@@ -44,7 +44,7 @@ public class UserController {
      * @return A ResponseEntity containing the created user's response DTO with HTTP status CREATED.
      */
     @PostMapping
-    public ResponseEntity<UserResponseDTO> createUser(final @Valid @RequestBody UserRequestDTO req) {
+    public ResponseEntity<UserResponse> createUser(final @Valid @RequestBody UserRequest req) {
         return new ResponseEntity<>(service.create(req), HttpStatus.CREATED);
     }
 }

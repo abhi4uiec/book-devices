@@ -1,7 +1,7 @@
 package com.phone.devices.config;
 
 import com.phone.devices.constants.Constants;
-import com.phone.devices.domain.user.UserRequestDTO;
+import com.phone.devices.domain.user.UserRequest;
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,11 +43,11 @@ class E2ESecurityConfigTest {
     @Test
     void whenCreatingUsers_thenNoSecurity() {
 
-        UserRequestDTO userRequestDTO = getUserRequestDTO("user1@example.com", ROLE_USER);
+        UserRequest userRequest = getUserRequestDTO("user1@example.com", ROLE_USER);
 
         // Create a user and validate
         given().contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(userRequestDTO)
+                .body(userRequest)
                 .when()
                 .post(USER_URI)
                 .then()
@@ -67,11 +67,11 @@ class E2ESecurityConfigTest {
     @Test
     void whenGettingPhoneDetails_withUser_then_ok() {
 
-        UserRequestDTO userRequestDTO = getUserRequestDTO("user2@example.com", ROLE_USER);
+        UserRequest userRequest = getUserRequestDTO("user2@example.com", ROLE_USER);
 
         // Create a user and validate
         given().contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(userRequestDTO)
+                .body(userRequest)
                 .when()
                 .post(USER_URI)
                 .then()
@@ -101,11 +101,11 @@ class E2ESecurityConfigTest {
     @Test
     void whenBookingPhone_withUserWithoutAdminPrivilege_then_AccessDenied() {
 
-        UserRequestDTO userRequestDTO = getUserRequestDTO("user3@example.com", ROLE_USER);
+        UserRequest userRequest = getUserRequestDTO("user3@example.com", ROLE_USER);
 
         // Create a user and validate
         given().contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(userRequestDTO)
+                .body(userRequest)
                 .when()
                 .post(USER_URI)
                 .then()
@@ -124,11 +124,11 @@ class E2ESecurityConfigTest {
     @Test
     void whenBookingPhone_withUserWithAdminPrivilege_then_ok() {
 
-        UserRequestDTO userRequestDTO = getUserRequestDTO("admin1@example.com", ROLE_ADMIN);
+        UserRequest userRequest = getUserRequestDTO("admin1@example.com", ROLE_ADMIN);
 
         // Create a user and validate
         given().contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(userRequestDTO)
+                .body(userRequest)
                 .when()
                 .post(USER_URI)
                 .then()
@@ -159,11 +159,11 @@ class E2ESecurityConfigTest {
     @Test
     void whenReturningPhone_phoneNotBooked_then_PhoneNotReturnedException() {
 
-        UserRequestDTO userRequestDTO = getUserRequestDTO("user4@example.com", ROLE_USER);
+        UserRequest userRequest = getUserRequestDTO("user4@example.com", ROLE_USER);
 
         // Create a user and validate
         given().contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(userRequestDTO)
+                .body(userRequest)
                 .when()
                 .post(USER_URI)
                 .then()
@@ -181,11 +181,11 @@ class E2ESecurityConfigTest {
     @Test
     void whenReturningPhone_phoneBooked_then_phoneReturnedSuccessful() {
 
-        UserRequestDTO userRequestDTO = getUserRequestDTO("admin2@example.com", ROLE_ADMIN);
+        UserRequest userRequest = getUserRequestDTO("admin2@example.com", ROLE_ADMIN);
 
         // Create a user and validate
         given().contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(userRequestDTO)
+                .body(userRequest)
                 .when()
                 .post(USER_URI)
                 .then()
@@ -219,8 +219,8 @@ class E2ESecurityConfigTest {
                 .body("phoneInfo._4gBands", equalTo("1, 2, 3, 4, 5, 7, 8, 12, 13, 17, 18, 19, 20, 25, 26, 28, 32, 66, 38, 39, 40, 41"));
     }
 
-    private UserRequestDTO getUserRequestDTO(final String userName, final String roleName) {
-        return new UserRequestDTO(userName, PASSWORD, roleName);
+    private UserRequest getUserRequestDTO(final String userName, final String roleName) {
+        return new UserRequest(userName, PASSWORD, roleName);
     }
 }
 

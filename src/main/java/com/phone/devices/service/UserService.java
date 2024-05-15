@@ -1,9 +1,9 @@
 package com.phone.devices.service;
 
-import com.phone.devices.domain.user.UserRequestDTO;
-import com.phone.devices.domain.user.UserResponseDTO;
+import com.phone.devices.domain.user.UserRequest;
+import com.phone.devices.domain.user.UserResponse;
 
 public interface UserService {
 
-    UserResponseDTO create(final UserRequestDTO req);
+    UserResponse create(final UserRequest req);
 }

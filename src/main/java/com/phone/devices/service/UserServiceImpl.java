@@ -1,7 +1,7 @@
 package com.phone.devices.service;
 
-import com.phone.devices.domain.user.UserRequestDTO;
-import com.phone.devices.domain.user.UserResponseDTO;
+import com.phone.devices.domain.user.UserRequest;
+import com.phone.devices.domain.user.UserResponse;
 import com.phone.devices.entity.User;
 import com.phone.devices.mapper.UserMapper;
 import com.phone.devices.repo.UserRepository;
@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
      * @return A user response DTO containing the details of the created user.
      */
     @Override
-    public UserResponseDTO create(final UserRequestDTO req) {
+    public UserResponse create(final UserRequest req) {
         final User user = UserMapper.toEntity(req);
         final User result = this.repository.save(user);
         return UserMapper.toResponse(result);

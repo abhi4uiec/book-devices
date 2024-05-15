@@ -1,6 +1,6 @@
 package com.phone.devices.ratelimit;
 
-import com.phone.devices.domain.user.UserRequestDTO;
+import com.phone.devices.domain.user.UserRequest;
 import io.restassured.RestAssured;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -35,13 +35,13 @@ class RateLimitTest {
     @Test
     void shouldFailOnExceedingRateLimitSet() {
 
-        UserRequestDTO userRequestDTO = new UserRequestDTO(
+        UserRequest userRequest = new UserRequest(
                 "admin@example.com",
                 "TestPassword123",
                 "ROLE_ADMIN");
 
         given().contentType(MediaType.APPLICATION_JSON_VALUE)
-                .body(userRequestDTO)
+                .body(userRequest)
                 .when()
                 .post("/user")
                 .then()
