@@ -7,6 +7,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+/**
+ * This service is crucial for authenticating users against the database
+ */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
@@ -28,6 +31,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
 
+        // we build a User object with the necessary credentials and authorities,
+        // ensuring the user's profile is correctly set up for access control within the application.
         return org.springframework.security.core.userdetails.User.withUsername(
                 user.getUsername())
                 .password(user.getPassword())

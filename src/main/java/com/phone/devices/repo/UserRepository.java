@@ -10,6 +10,7 @@ import java.util.Optional;
  * Repository interface for managing user entities.
  */
 @Repository
+// User is the entity type and Long is the type of the entity's primary key (ID).
 public interface UserRepository extends JpaRepository<User, Long> {
 
     /**
